@@ -73,10 +73,10 @@ def register_stock_market_tools(app: FastMCP, active_data_source: FinancialDataS
         fields: Optional[List[str]] = None,
     ) -> str:
         """
-        获取中国A股股票的历史K线（OHLCV）数据
+        获取美股的历史K线（OHLCV）数据
 
         参数:
-            code: Baostock格式的股票代码（例如：'sh.600000', 'sz.000001'）
+            code: 美股代码 ticker（例如：'AAPL', 'TSLA'）
             start_date: 开始日期，格式为'YYYY-MM-DD'
             end_date: 结束日期，格式为'YYYY-MM-DD'
             frequency: 数据频率。有效选项（来自Baostock）：
@@ -128,10 +128,10 @@ def register_stock_market_tools(app: FastMCP, active_data_source: FinancialDataS
     @app.tool()
     def get_stock_basic_info(code: str, fields: Optional[List[str]] = None) -> str:
         """
-        获取给定中国A股股票的基本信息
+        获取给定美股的基本信息
 
         参数:
-            code: Baostock格式的股票代码（例如：'sh.600000', 'sz.000001'）
+            code: 美股代码 ticker（例如：'AAPL', 'TSLA'）
             fields: 可选列表，用于从可用的基本信息中选择特定列
                     （例如：['code', 'code_name', 'industry', 'listingDate']）
                     如果为None或空，返回Baostock中所有可用的基本信息列
@@ -156,7 +156,7 @@ def register_stock_market_tools(app: FastMCP, active_data_source: FinancialDataS
         获取给定股票代码和年份的分红信息
 
         参数:
-            code: Baostock格式的股票代码（例如：'sh.600000', 'sz.000001'）
+            code: 美股代码 ticker（例如：'AAPL', 'TSLA'）
             year: 查询年份（例如：'2023'）
             year_type: 年份类型。有效选项（来自Baostock）：
                          'report': 预案公告年份
@@ -193,7 +193,7 @@ def register_stock_market_tools(app: FastMCP, active_data_source: FinancialDataS
         使用Baostock的"涨跌幅复权算法"因子。用于计算复权价格
 
         参数:
-            code: Baostock格式的股票代码（例如：'sh.600000', 'sz.000001'）
+            code: 美股代码 ticker（例如：'AAPL', 'TSLA'）
             start_date: 开始日期，格式为'YYYY-MM-DD'
             end_date: 结束日期，格式为'YYYY-MM-DD'
 

@@ -70,7 +70,7 @@ def register_financial_report_tools(app: FastMCP, active_data_source: FinancialD
         获取股票的季度盈利能力数据（如ROE、净利润率等）
 
         参数:
-            code: 股票代码（例如：'sh.600000'）
+            code: 美股 ticker（例如：'AAPL'）
             year: 4位数字年份（例如：'2023'）
             quarter: 季度（1、2、3或4）
 
@@ -90,7 +90,7 @@ def register_financial_report_tools(app: FastMCP, active_data_source: FinancialD
         获取股票的季度营运能力数据（如周转率等）
 
         参数:
-            code: 股票代码（例如：'sh.600000'）
+            code: 美股 ticker（例如：'AAPL'）
             year: 4位数字年份（例如：'2023'）
             quarter: 季度（1、2、3或4）
 
@@ -110,7 +110,7 @@ def register_financial_report_tools(app: FastMCP, active_data_source: FinancialD
         获取股票的季度成长能力数据（如同比增长率等）
 
         参数:
-            code: 股票代码（例如：'sh.600000'）
+            code: 美股 ticker（例如：'AAPL'）
             year: 4位数字年份（例如：'2023'）
             quarter: 季度（1、2、3或4）
 
@@ -130,7 +130,7 @@ def register_financial_report_tools(app: FastMCP, active_data_source: FinancialD
         获取股票的季度资产负债表/偿债能力数据（如流动比率、资产负债率等）
 
         参数:
-            code: 股票代码（例如：'sh.600000'）
+            code: 美股 ticker（例如：'AAPL'）
             year: 4位数字年份（例如：'2023'）
             quarter: 季度（1、2、3或4）
 
@@ -150,7 +150,7 @@ def register_financial_report_tools(app: FastMCP, active_data_source: FinancialD
         获取股票的季度现金流量数据（如CFO/营业收入比率等）
 
         参数:
-            code: 股票代码（例如：'sh.600000'）
+            code: 美股 ticker（例如：'AAPL'）
             year: 4位数字年份（例如：'2023'）
             quarter: 季度（1、2、3或4）
 
@@ -170,7 +170,7 @@ def register_financial_report_tools(app: FastMCP, active_data_source: FinancialD
         获取股票的季度杜邦分析数据（ROE分解）
 
         参数:
-            code: 股票代码（例如：'sh.600000'）
+            code: 美股 ticker（例如：'AAPL'）
             year: 4位数字年份（例如：'2023'）
             quarter: 季度（1、2、3或4）
 
@@ -191,7 +191,7 @@ def register_financial_report_tools(app: FastMCP, active_data_source: FinancialD
         注意：公司仅在特定情况下才需要发布这些报告
 
         参数:
-            code: 股票代码（例如：'sh.600000'）
+            code: 美股 ticker（例如：'AAPL'）
             start_date: 开始日期（报告发布日期），格式为'YYYY-MM-DD'
             end_date: 结束日期（报告发布日期），格式为'YYYY-MM-DD'
 
@@ -214,7 +214,7 @@ def register_financial_report_tools(app: FastMCP, active_data_source: FinancialD
         注意：公司仅在特定情况下才需要发布这些报告
 
         参数:
-            code: 股票代码（例如：'sh.600000'）
+            code: 美股 ticker（例如：'AAPL'）
             start_date: 开始日期（报告发布日期），格式为'YYYY-MM-DD'
             end_date: 结束日期（报告发布日期），格式为'YYYY-MM-DD'
 
