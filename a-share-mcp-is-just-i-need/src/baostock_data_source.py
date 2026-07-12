@@ -668,11 +668,17 @@ class BaostockDataSource(FinancialDataSource):
     
     def _load_risk_model(self):
         """加载风险模型"""
+        # 【已停用 - 风险分析模块】
+        # 原因: 该 LoRA 模型欠训练(输出乱码), 且在 CPU 上逐条推理会拖慢/卡死流程。
+        # 直接返回 None 跳过加载; crawl_news 检测到模型为 None 时会自动跳过风险分析。
+        # 如需恢复, 删除下面这行 return 即可。
+        return None, None
+        # ---- 以下为原加载逻辑, 现已停用(不可达) ----
         try:
             from transformers import AutoTokenizer, AutoModelForCausalLM
             from peft import PeftModel
             import torch
-            
+
             risk_model_path = r"C:\Users\dty23\Desktop\Project\Finance\qwen_risk_model"
             base_model_name = r"C:\Users\dty23\Desktop\Project\Finance\Qwen"
             
@@ -707,11 +713,17 @@ class BaostockDataSource(FinancialDataSource):
     
     def _load_sentiment_model(self):
         """加载情感模型"""
+        # 【已停用 - 情感分析模块】
+        # 原因: 该 LoRA 模型欠训练(输出乱码), 且在 CPU 上逐条推理会拖慢/卡死流程。
+        # 直接返回 None 跳过加载; crawl_news 检测到模型为 None 时会自动跳过情感分析。
+        # 如需恢复, 删除下面这行 return 即可。
+        return None, None
+        # ---- 以下为原加载逻辑, 现已停用(不可达) ----
         try:
             from transformers import AutoTokenizer, AutoModelForCausalLM
             from peft import PeftModel
             import torch
-            
+
             sentiment_model_path = r"C:\Users\dty23\Desktop\Project\Finance\qwen_sentiment_model"
             base_model_name = r"C:\Users\dty23\Desktop\Project\Finance\Qwen"
             

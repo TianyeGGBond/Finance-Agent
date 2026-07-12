@@ -84,6 +84,46 @@ logger.info(
 logger = setup_logger(__name__)
 
 
+def resolve_us_ticker(query: str, company_name: str = None) -> str:
+    """从用户查询中解析出美股 ticker (如 AAPL/TSLA)。
+
+    1. 优先识别显式的大写股票代码 (1-5 个字母)，排除常见英文词。
+    2. 否则用 yfinance 的搜索按公司名/关键词解析出 ticker。
+    """
+    # 1. 显式大写 ticker
+    candidates = re.findall(r'\b[A-Z]{1,5}\b', query)
+    blacklist = {"A", "I", "AI", "US", "IT", "CEO", "ETF", "AND", "THE",
+                 "FOR", "PE", "PB", "ROE", "IPO", "GDP", "CPI", "OK"}
+    for cand in candidates:
+        if cand not in blacklist:
+            return cand
+    # 2. 用 yfinance 搜索解析公司名 -> ticker
+    term = company_name or query
+    # 清洗常见的中英文填充词, 只留下公司名/关键词, 提高搜索命中率
+    fillers = ["请帮我", "帮我看看", "帮我", "我想了解一下", "我想了解", "了解一下",
+               "给我分析一下", "分析一下", "分析", "看看", "怎么样", "如何",
+               "值得买吗", "值得投资吗", "值得买", "值得投资", "这只股票", "这个股票",
+               "股票", "公司", "的投资价值", "投资价值", "财务状况", "基本面",
+               "这只", "这个", "一下", "吗", "呢", "的",
+               "analyze", "analysis", "how is", "should i buy", "stock",
+               "tell me about", "what about", "the"]
+    cleaned = term
+    for f in fillers:
+        cleaned = cleaned.replace(f, " ")
+    cleaned = " ".join(cleaned.split()).strip()
+    try:
+        import yfinance as yf
+        for t in [cleaned, term]:
+            if not t:
+                continue
+            quotes = yf.Search(t, max_results=1).quotes
+            if quotes and quotes[0].get("symbol"):
+                return quotes[0]["symbol"]
+    except Exception as e:
+        logger.warning(f"yfinance 解析 ticker 失败: {e}")
+    return None
+
+
 async def main():
     """
     主函数：金融分析智能体系统的核心执行逻辑
@@ -210,20 +250,20 @@ async def main():
                 "║                                                                              ║")
             print(
                 "╚══════════════════════════════════════════════════════════════════════════════╝")
-            print("\n🔹 本系统可以对A股公司进行全面分析，包括：")
+            print("\n🔹 本系统可以对美股公司进行全面分析，包括：")
             print("  • 基本面分析 - 财务状况、盈利能力和行业地位")
             print("  • 技术面分析 - 价格趋势、交易量和技术指标")
             print("  • 估值分析 - 市盈率、市净率等估值水平")
             print("  • 新闻分析 - 新闻情感分析和风险评估")
             print("\n🔹 支持多种自然语言查询方式：")
-            print("  • 分析嘉友国际")
-            print("  • 帮我看看比亚迪这只股票怎么样")
-            print("  • 我想了解一下腾讯的投资价值")
-            print("  • 603871 这个股票值得买吗？")
-            print("  • 给我分析一下宁德时代的财务状况")
+            print("  • 分析 AAPL")
+            print("  • 帮我看看 Tesla 这只股票怎么样")
+            print("  • 我想了解一下 Nvidia 的投资价值")
+            print("  • MSFT 这个股票值得买吗？")
+            print("  • 给我分析一下 Amazon 的财务状况")
             print("\n🔹 您可以用任何自然语言描述您的分析需求")
-            print("🔹 系统会自动识别股票名称和代码，并进行全面分析")
-            print("\n💡 提示：建议使用股票代码（如 000001、600036）以获得更准确的分析结果")
+            print("🔹 系统会自动识别公司名称并解析为美股 ticker，再进行全面分析")
+            print("\n💡 提示：建议直接使用美股代码 ticker（如 AAPL、MSFT）以获得更准确的分析结果")
             print("\n" + "─" * 78 + "\n")
 
             # 获取用户输入
@@ -441,16 +481,17 @@ async def main():
         # 添加公司名称（如果提取到）
         if company_name:
             initial_data["company_name"] = company_name
-            
-        # 添加股票代码（如果提取到），并添加交易所前缀
-        if stock_code:
-            # 根据股票代码规则添加交易所前缀
-            if stock_code.startswith('6'):
-                initial_data["stock_code"] = f"sh.{stock_code}"  # 上海证券交易所
-            elif stock_code.startswith('0') or stock_code.startswith('3'):
-                initial_data["stock_code"] = f"sz.{stock_code}"  # 深圳证券交易所
-            else:
-                initial_data["stock_code"] = stock_code
+
+        # 美股: 解析 ticker（如 AAPL/TSLA），不加沪深前缀
+        us_ticker = resolve_us_ticker(user_query, company_name)
+        if us_ticker:
+            initial_data["stock_code"] = us_ticker
+            if not company_name:
+                initial_data["company_name"] = us_ticker
+            logger.info(f"解析到美股 ticker: {us_ticker}")
+        elif stock_code:
+            # 兜底：直接使用提取到的代码（交给数据源处理）
+            initial_data["stock_code"] = stock_code
 
         # 创建LangGraph工作流的初始状态
         initial_state = AgentState(

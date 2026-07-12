@@ -27,7 +27,7 @@ def register_index_tools(app: FastMCP, active_data_source: FinancialDataSource):
         获取指定股票或指定日期所有股票的行业分类数据
 
         参数:
-            code: 可选的股票代码（例如：'sh.600000'）。如果为None，则获取所有股票的数据
+            code: 可选的美股 ticker（例如：'AAPL'）。如果为None，则获取所有股票的数据
             date: 可选的日期，格式为'YYYY-MM-DD'。如果为None，则使用最新可用日期
 
         返回:

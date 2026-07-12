@@ -88,7 +88,7 @@ def register_market_overview_tools(app: FastMCP, active_data_source: FinancialDa
     @app.tool()
     def get_all_stock(date: Optional[str] = None) -> str:
         """
-        获取指定日期的所有股票（A股和指数）列表及其交易状态
+        获取指定日期的所有股票（美股和指数）列表及其交易状态
 
         参数:
             date: 可选的日期，格式为'YYYY-MM-DD'。如果为None，则使用当前日期

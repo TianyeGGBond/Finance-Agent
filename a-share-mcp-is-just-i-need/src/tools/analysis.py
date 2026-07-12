@@ -27,7 +27,7 @@ def register_analysis_tools(app: FastMCP, active_data_source: FinancialDataSourc
         提供基于数据的股票分析报告，而非投资建议。
 
         参数:
-            code: 股票代码，如'sh.600000'
+            code: 股票代码，如 'AAPL'
             analysis_type: 分析类型，可选'fundamental'(基本面)、'technical'(技术面)或'comprehensive'(综合)
 
         返回:
