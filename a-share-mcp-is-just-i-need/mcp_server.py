@@ -7,6 +7,7 @@ from mcp.server.fastmcp import FastMCP
 # Import the interface and the concrete implementation
 from src.data_source_interface import FinancialDataSource
 from src.baostock_data_source import BaostockDataSource
+from src.yfinance_data_source import YFinanceDataSource
 from src.utils import setup_logging
 
 # 导入各模块工具的注册函数
@@ -26,8 +27,9 @@ setup_logging(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # --- Dependency Injection ---
-# Instantiate the data source - easy to swap later if needed
-active_data_source: FinancialDataSource = BaostockDataSource()
+# 数据源: 已从 A 股(baostock) 切换为美股(yfinance)。
+# 如需切回 A 股, 改回 BaostockDataSource() 即可。
+active_data_source: FinancialDataSource = YFinanceDataSource()
 
 # --- Get current date for system prompt ---
 current_date = datetime.now().strftime("%Y-%m-%d")
