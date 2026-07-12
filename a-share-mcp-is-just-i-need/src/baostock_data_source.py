@@ -673,8 +673,8 @@ class BaostockDataSource(FinancialDataSource):
             from peft import PeftModel
             import torch
             
-            risk_model_path = "/mnt/data/guyx/self-learn/Finance/qwen_risk_model"
-            base_model_name = "/mnt/data/guyx/self-learn/Finance/Qwen"
+            risk_model_path = r"C:\Users\dty23\Desktop\Project\Finance\qwen_risk_model"
+            base_model_name = r"C:\Users\dty23\Desktop\Project\Finance\Qwen"
             
             # 检查CUDA可用性
             device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -712,8 +712,8 @@ class BaostockDataSource(FinancialDataSource):
             from peft import PeftModel
             import torch
             
-            sentiment_model_path = "/mnt/data/guyx/self-learn/Finance/qwen_sentiment_model"
-            base_model_name = "/mnt/data/guyx/self-learn/Finance/Qwen"
+            sentiment_model_path = r"C:\Users\dty23\Desktop\Project\Finance\qwen_sentiment_model"
+            base_model_name = r"C:\Users\dty23\Desktop\Project\Finance\Qwen"
             
             # 检查CUDA可用性
             device = "cuda" if torch.cuda.is_available() else "cpu"

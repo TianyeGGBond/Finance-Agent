@@ -185,7 +185,7 @@ def create_model_and_tokenizer():
     """创建模型和分词器"""
     print("正在加载模型和分词器...")
     
-    model_name = "/root/code/Finance/Qwen"
+    model_name = r"C:\Users\dty23\Desktop\Project\Finance\Qwen"
     
     # 加载分词器
     tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
@@ -195,10 +195,10 @@ def create_model_and_tokenizer():
     # 加载模型
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
-        torch_dtype=torch.float16,
-        device_map="auto",
+        torch_dtype=torch.float32,
         trust_remote_code=True
     )
+    model = model.to(device)
     
     # 准备模型进行训练
     model = prepare_model_for_kbit_training(model)
@@ -231,7 +231,7 @@ def train_model(model, tokenizer, train_dataset, eval_dataset, output_dir="./qwe
         gradient_accumulation_steps=4,
         warmup_steps=100,
         learning_rate=2e-5,
-        fp16=True,
+        fp16=False,
         logging_steps=50,
         save_steps=500,
         eval_steps=500,
@@ -272,7 +272,7 @@ def train_model(model, tokenizer, train_dataset, eval_dataset, output_dir="./qwe
 def main():
     """主函数"""
     # 数据路径
-    csv_path = "risk_nasdaq/risk_deepseek_cleaned_nasdaq_news_full.csv"
+    csv_path = r"C:\Users\dty23\Desktop\Project\Finance\risk_nasdaq\2.csv"
     
     # 加载和预处理数据
     df = load_and_preprocess_data(csv_path)
